@@ -61,24 +61,31 @@ const UserProfile = () => {
   // دالة لتحديث بيانات المستخدم
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-
+  
     // التحقق من صحة البيانات
     if (!validate()) {
       return;
     }
-
+  
     try {
       // إرسال التحديثات إلى الخادم
       const response = await axios.put("http://localhost:4000/api/profile", editableUser, {
         withCredentials: true, // للسماح بإرسال الكوكيز
       });
-
+  
+      const { user: updatedUser, token: updatedToken } = response.data;
+  
       // تحديث بيانات المستخدم في Redux
-      dispatch(login(response.data.user));
-
+      dispatch(login({ user: updatedUser, token: updatedToken }));
+  
       // تحديث بيانات المستخدم في الواجهة
-      setUser(response.data.user);
-      
+      setUser(updatedUser);
+      setEditableUser(updatedUser);
+  
+      // تحديث localStorage بالبيانات الجديدة
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      localStorage.setItem("token", updatedToken);
+  
       // عرض رسالة نجاح باستخدام SweetAlert
       Swal.fire({
         icon: "success",
@@ -89,7 +96,7 @@ const UserProfile = () => {
     } catch (error) {
       setError("حدث خطأ أثناء تحديث البيانات");
       console.error("Error updating profile:", error);
-
+  
       // عرض رسالة خطأ باستخدام SweetAlert
       Swal.fire({
         icon: "error",
@@ -99,14 +106,17 @@ const UserProfile = () => {
       });
     }
   };
-
-
   // دالة لاختيار الصورة
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
     }
+  };
+
+  // دالة لتوجيه المستخدم إلى صفحة كتابة قصة النجاح
+  const handleWriteStory = () => {
+    navigate("/form");
   };
 
   if (!user) {
@@ -168,6 +178,13 @@ const UserProfile = () => {
             <div className="pt-16 pb-4">
               <h2 className="text-xl font-bold text-gray-800">{editableUser.firstName} {editableUser.lastName}</h2>
               <p className="text-gray-600 text-sm">{editableUser.phoneNumber || "لا يوجد رقم هاتف"}</p>
+              {/* زر "اكتب قصة نجاحك" */}
+              <button
+                onClick={handleWriteStory}
+                className="mt-4 bg-[#940066] text-white px-4 py-2 rounded-lg hover:bg-[#671F79] transition-all duration-300"
+              >
+                اكتب قصة نجاحك
+              </button>
             </div>
           </div>
         </div>

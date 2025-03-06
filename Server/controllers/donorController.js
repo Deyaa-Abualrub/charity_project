@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const getUserDonations = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId =  req.params.id || req.user.id;
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
@@ -24,7 +24,7 @@ const getUserDonations = async (req, res) => {
 
 const getUserTotalDonations = async (req, res) => {
   try {
-    const userId = req.params.id; // استخدام المعرف من الرابط
+    const userId =  req.params.id || req.user.id;
     const total = await Donation.sum("amount", {
       where: { donorId: userId },
     });
@@ -37,7 +37,7 @@ const getUserTotalDonations = async (req, res) => {
 
 const getUserAverageDonation = async (req, res) => {
   try {
-    const userId = req.params.id; // استخدام المعرف من الرابط
+    const userId =  req.params.id || req.user.id;
     const totalDonations = await Donation.sum("amount", { where: { donorId: userId } });
     const donationCount = await Donation.count({ where: { donorId: userId } });
     const averageDonation = donationCount > 0 ? (totalDonations / donationCount) : 0;
@@ -51,7 +51,7 @@ const getUserAverageDonation = async (req, res) => {
 // جلب بيانات الملف الشخصي للمتبرع (من جدول Users)
 const getDonorProfile = async (req, res) => {
   try {
-    const donorId = req.params.id; // يُفترض أن يكون معرف المستخدم
+    const donorId =  req.params.id || req.user.id;
     const user = await User.findByPk(donorId, {
       attributes: ["firstName", "email","password"],
     });

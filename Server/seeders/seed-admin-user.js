@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
-      const hashedPassword = await bcrypt.hash("12345678", 10);
+      const hashedPassword = await bcrypt.hash("Admin12345678", 10);
 
       console.log("Hashed Password:", hashedPassword);
 

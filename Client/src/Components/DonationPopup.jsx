@@ -4,13 +4,15 @@ import axios from "axios";
 
 export default function DonationPopup({ isOpen, onClose, programId }) {
   const [currency] = useState("د.أ");
-  const [donationAmount, setDonationAmount] = useState(250); // قيمة افتراضية للتبرع
+  const [donationAmount, setDonationAmount] = useState(250); 
+  const [customAmount, setCustomAmount] = useState("");
   const [cardHolder, setCardHolder] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isCustom, setIsCustom] = useState(false);
 
 // Function to get a cookie by name
 function getCookie(name) {
@@ -27,9 +29,12 @@ function getCookie(name) {
 const handleDonation = async (event) => {
   event.preventDefault();
 
+  // تحديد المبلغ الفعلي للتبرع (إما المخصص أو المحدد مسبقاً)
+  const finalAmount = isCustom ? parseFloat(customAmount) : donationAmount;
+
   // Validate donation amount
-  if (!donationAmount) {
-      setError("يرجى اختيار مبلغ التبرع");
+  if (!finalAmount || isNaN(finalAmount) || finalAmount <= 0) {
+      setError("يرجى إدخال مبلغ تبرع صحيح");
       return;
   }
 
@@ -55,7 +60,7 @@ const handleDonation = async (event) => {
       const response = await axios.post(
           "http://localhost:4000/api/payment",
           {
-              amount: donationAmount,
+              amount: finalAmount,
               currency,
               programId,
               paymentDetails: {
@@ -80,8 +85,17 @@ const handleDonation = async (event) => {
       setIsLoading(false);
   }
 };
+
   const handleAmountChange = (amount) => {
     setDonationAmount(amount);
+    setIsCustom(false);
+    setCustomAmount("");
+  };
+
+  const handleCustomAmountChange = (e) => {
+    const value = e.target.value.replace(/[^0-9.]/g, "");
+    setCustomAmount(value);
+    setIsCustom(true);
   };
 
   // تنسيق رقم البطاقة أثناء الإدخال
@@ -102,7 +116,7 @@ const handleDonation = async (event) => {
     }
   };
 
-  // تنسيق تاريخ الانتهاء أثناء الإدخال
+  //  تاريخ الانتهاء أثناء الإدخال
   const formatExpiry = (value) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
 
@@ -117,7 +131,7 @@ const handleDonation = async (event) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+          className="fixed inset-0  bg-opacity-60 flex justify-center items-center z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -161,18 +175,18 @@ const handleDonation = async (event) => {
             <div className="mb-6 text-center">
               <p className="text-gray-600 mb-2">المبلغ المختار</p>
               <div className="text-2xl font-bold text-[#940066]">
-                {donationAmount} {currency}
+                {isCustom ? customAmount : donationAmount} {currency}
               </div>
             </div>
 
-            {/* خيارات المبالغ بتصميم أكثر بساطة */}
-            <div className="grid grid-cols-4 gap-3 mb-6">
+            {/* خيارات المبالغ بتصميم أكثر بساطة مع إضافة حقل المبلغ المخصص */}
+            <div className="grid grid-cols-4 gap-3 mb-4">
               {[100, 250, 300, 500].map((amount) => (
                 <button
                   key={amount}
                   onClick={() => handleAmountChange(amount)}
                   className={`py-3 rounded-lg transition-colors font-medium ${
-                    donationAmount === amount
+                    donationAmount === amount && !isCustom
                       ? "bg-[#940066] text-white"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
@@ -180,6 +194,28 @@ const handleDonation = async (event) => {
                   {amount} {currency}
                 </button>
               ))}
+            </div>
+
+            {/* حقل إدخال المبلغ المخصص */}
+            <div className="mb-6">
+              <label htmlFor="customAmount" className="block text-sm text-gray-600 mb-2">
+                أو أدخل المبلغ الذي تريده
+              </label>
+              <div className="relative">
+                <input
+                  id="customAmount"
+                  type="text"
+                  value={customAmount}
+                  onChange={handleCustomAmountChange}
+                  className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#940066] focus:border-transparent text-right ${
+                    isCustom ? "border-[#940066]" : "border-gray-200"
+                  }`}
+                  placeholder="أدخل المبلغ هنا"
+                />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  {currency}
+                </span>
+              </div>
             </div>
 
             {/* نموذج معلومات الدفع المحسن */}

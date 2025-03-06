@@ -1,5 +1,3 @@
-
-
 import { Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
 import Home from "../Pages/dashboardAdmin/overview";
@@ -18,9 +16,9 @@ function Routerdashboard() {
           <Route path="/" element={<Navigate to="/dashboard/overview" />} />
           <Route path="/overview" element={<Home />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/Beneficiaries" element={<Beneficiaries/>} />
+          <Route path="/Beneficiaries" element={<Beneficiaries />} />
           <Route path="/message" element={<Message />} />
-          
+
           <Route path="*" element={<Navigate to="/dashboard/overview" />} />
         </Routes>
       </div>

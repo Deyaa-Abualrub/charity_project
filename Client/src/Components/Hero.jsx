@@ -21,10 +21,7 @@ function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row justify-center lg:justify-end space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
           <div className="flex flex-wrap gap-6 justify-center items-center">
   
-  <button className="border-2 border-[#940066] text-[#940066] hover:bg-[#940066] hover:text-white px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
-    <Link to="/signin">تسجيل الدخول</Link>
-  </button>
-  <button className="bg-[#940066] hover:bg-[#ECECEC] text-white px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-lg hover:bg-[#ECECEC] hover:text-[#940066] hover:border hover:border-[#940066] transition-all">
+  <button className="bg-[#940066] hover:bg-[#ECECEC] text-white px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-lg hover:bg-[#ECECEC] hover:text-[#940066] hover:border hover:border-[#940066] transition-all ml-100">
     <Link to="/ScholarshipTerms">شروط المنحة</Link>
   </button>
 </div>

@@ -6,6 +6,7 @@ import { FaHandHoldingHeart, FaChartPie} from "react-icons/fa";
 import axios from "axios";
 import { FiArrowRight } from "react-icons/fi";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2"; // استيراد sweetalert2
 
 
 function DonateDashboard({} ) {
@@ -85,7 +86,13 @@ useEffect(() => {
       const updatedData = { [field]: profile[field] };
       await axios.put(`http://localhost:4000/api/donors/update-profile/${id}`, updatedData);
 
-      alert("تم تحديث البيانات بنجاح!");
+      // عرض رسالة نجاح باستخدام SweetAlert
+      Swal.fire({
+        icon: "success",
+        title: "تم تحديث البيانات بنجاح!",
+        text: "تم حفظ التغييرات في ملفك الشخصي.",
+        confirmButtonText: "موافق",
+      });
       setEditField(null); // إرجاع الحقل لوضع العرض بعد الحفظ
     } catch (error) {
       console.error("Error updating profile:", error);

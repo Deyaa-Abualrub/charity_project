@@ -17,6 +17,17 @@ const Sidebar = () => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+  const handleLogout = () => {
+    // حذف البيانات من localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    // حذف التوكن من الكوكيز (إذا كنت تستخدمها)
+    Cookies.remove("token");
+
+    // توجيه المستخدم إلى الصفحة الرئيسية
+    navigate("/");
+  };
 
   const links = [
     {
@@ -92,7 +103,8 @@ const Sidebar = () => {
 
         <NavLink
           to="/"
-          className="mt-auto flex flex-row-reverse items-center gap-2 p-3 rounded-md  transition"
+          onClick={handleLogout} // استدعاء دالة تسجيل الخروج عند النقر
+          className="mt-auto flex flex-row-reverse items-center gap-2 p-3 rounded-md transition "
         >
           <ArrowRightOnRectangleIcon className="w-5 h-5" />{" "}
           <span>تسجيل الخروج</span>

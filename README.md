@@ -62,5 +62,5 @@ The goal of **Aroma** is to empower university students by providing a seamless 
 ## 🌐 Website
 
 **Visit us at:** [Aroma]()
-- **Wireframe & Mockup Link**: [Here](https://www.figma.com/design/TWptqFkeWPQ56R3ec1twko/Untitled?node-id=0-1&p=f&t=DgUptwk1DwAsWsy9-0)
+- **Wireframe & Mockup Link**: [Here](https://www.figma.com/design/Jt25P0qzPBRZ4iL9rh2378/Untitled?node-id=0-1&p=f&t=b7gBgR019PnGRWBQ-0)
 - **Here is the Link to Trello**: [Here](https://trello.com/b/YfZvpJmX/edubridge)

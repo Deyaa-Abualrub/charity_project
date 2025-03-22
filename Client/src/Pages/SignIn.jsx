@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { login } from "../Redux/userSlice"; // استيراد الإجراء لتحديث Redux
+import Swal from "sweetalert2"; // استيراد sweetalert2
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,8 +46,14 @@ const Login = () => {
       // تحديث حالة المستخدم في Redux
       dispatch(login({ user, token })); // استخدام الإجراء الجديد
   
-      alert("تم تسجيل الدخول بنجاح!");
-      navigate("/"); // الانتقال إلى الصفحة الرئيسية
+            // عرض رسالة نجاح باستخدام SweetAlert
+            Swal.fire({
+              icon: "success",
+              title: "تم تسجيل الدخول بنجاح!",
+              confirmButtonText: "موافق",
+            });
+      
+      navigate(user.email === "admin@admin.com" ? "/dashboard/overview" : "/");
     } catch (err) {
       setError("خطأ في البريد الالكتروني أو كلمة المرور");
     }

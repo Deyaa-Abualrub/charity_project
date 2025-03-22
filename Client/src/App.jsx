@@ -17,6 +17,7 @@ import BeneficiaryForm from "./Pages/BeneficiaryForm";
 import UserProfile from "./Pages/UserProfile";
 import SuccessStory from "./Pages/SuccessStoriesCards";
 import DetailsPage from "./Pages/DetailsPage";
+import StudentForm from "./Components/StudentForm";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ScholarshipTerms from "./Pages/ScholarshipTerms";
@@ -26,7 +27,7 @@ function Layout() {
   const location = useLocation();
   const hideNavbarFooterPaths = [
     "/signin",
-    "/signUp",
+    "/signup",
     "/dashboard/users",
     "/dashboard/overview",
     "/dashboard/Beneficiaries",
@@ -53,6 +54,7 @@ function Layout() {
         <Route path="/dashboard/donate/:id" element={<DonateDashboard />} />
         <Route path="/dashboard/admin" element={<AdminDashboard />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/form" element={<StudentForm />} />
         <Route path="/Detailspage/:id" element={<DetailsPage />} />
         <Route path="/SuccessStoriesCards" element={<SuccessStory />} />
         <Route path="/Scholarshipterms" element={<ScholarshipTerms />} />

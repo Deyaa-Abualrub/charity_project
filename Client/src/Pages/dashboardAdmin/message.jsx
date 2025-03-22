@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2"; // استيراد sweetalert2
 
 export function Message() {
   const [messages, setMessages] = useState([]);
@@ -32,7 +33,13 @@ export function Message() {
         replyMessage: replyMessage,
       })
       .then((response) => {
-        alert("تم إرسال الرد بنجاح!");
+        // عرض رسالة نجاح باستخدام SweetAlert
+        Swal.fire({
+          icon: "success",
+          title: "تم ارسال الرد بنجاح!",
+          confirmButtonText: "موافق",
+        });
+
         // مسح الحقل بعد الإرسال
         setReplyMessages((prev) => ({
           ...prev,

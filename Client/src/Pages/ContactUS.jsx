@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2"; // استيراد sweetalert2
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -27,15 +28,29 @@ function Contact() {
         messageData
       );
 
-      // عرض تنبيه عند نجاح الإرسال
-      alert("تم إرسال الرسالة بنجاح!");
+      // عرض رسالة نجاح باستخدام SweetAlert
+      Swal.fire({
+        icon: "success",
+        title: "تم إرسال الرسالة بنجاح!",
+        text: "شكراً لتواصلك معنا. سيتم الرد على رسالتك قريباً.",
+        confirmButtonText: "موافق",
+      });
 
       // تفريغ الفورم
       setFormData({ name: "", email: "", description: "" });
 
       console.log("رسالة تم إرسالها بنجاح:", response.data);
     } catch (error) {
-      alert("خطأ أثناء إرسال الطلب:", error);
+      // عرض رسالة خطأ باستخدام SweetAlert
+      Swal.fire({
+        icon: "error",
+        title: "خطأ أثناء إرسال الطلب",
+        text: error.response
+          ? error.response.data.description
+          : "حدث خطأ غير معروف، يرجى المحاولة لاحقاً.",
+        confirmButtonText: "موافق",
+      });
+
       if (error.response) {
         console.error("تفاصيل الخطأ:", error.response.data);
       }
@@ -95,12 +110,12 @@ function Contact() {
 
             <div className="space-y-4">
               <p className="text-gray-700 flex items-center justify-end gap-2">
-                <span className="font-bold text-lg">0123456789</span>
+                <span className="font-bold text-lg">782520227 962+</span>
                 <span className="text-[#940066] text-xl">📞</span>
               </p>
 
               <p className="text-gray-700 flex items-center justify-end gap-2">
-                <span className="font-bold text-lg">example@gmail.com</span>
+                <span className="font-bold text-lg">dyaaabualrub12@gmail.com</span>
                 <span className="text-[#940066] text-xl">✉️</span>
               </p>
             </div>

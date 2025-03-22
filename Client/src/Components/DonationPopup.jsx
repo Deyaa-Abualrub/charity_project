@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import Swal from "sweetalert2"; // استيراد sweetalert2
 
 export default function DonationPopup({ isOpen, onClose, programId }) {
   const [currency] = useState("د.أ");
@@ -76,7 +77,13 @@ const handleDonation = async (event) => {
               },
           }
       );
-      alert("تم التبرع بنجاح!");
+            // عرض رسالة نجاح باستخدام SweetAlert
+            Swal.fire({
+              icon: "success",
+              title: "تم التبرع بنجاح",
+              confirmButtonText: "موافق",
+            });
+      
       onClose();
   } catch (err) {
       console.error(err);

@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // حدد عنوان الواجهة الأمامية
+    origin: "http://localhost:5173 ", // حدد عنوان الواجهة الأمامية
     credentials: true, // السماح بإرسال ملفات تعريف الارتباط (cookies)
   })
 );
